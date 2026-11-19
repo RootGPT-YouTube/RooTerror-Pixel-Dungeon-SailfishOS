@@ -1,0 +1,59 @@
+//RooTerror Pixel Dungeon — modulo SailfishOS (libGDX LWJGL3 su Wayland, GLES2 via EGL)
+// Accanto a :desktop, che resta com'è: le modifiche per SailfishOS stanno tutte qui.
+apply plugin: 'java'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+java.sourceCompatibility = java.targetCompatibility = appJavaCompatibility
+
+ext.sfAppName = 'RooTerror Pixel Dungeon'
+ext.sfPackageName = 'com.github.rootgpt_youtube.rooterror'
+ext.sfMainClass = 'com.shatteredpixel.shatteredpixeldungeon.sailfish.SailfishLauncher'
+ext.lwjglVersion = '3.3.3'
+
+processResources {
+    from new File(project(':core').projectDir, "/src/main/assets")
+    //font droid_sans per le lingue asiatiche
+    from(new File(project(':desktop').projectDir, "/src/main/assets")) {
+        include 'fonts/**'
+    }
+}
+
+tasks.register('release', Jar) {
+    archiveFileName = 'rooterror-pixel-dungeon.jar'
+    setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from { configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) } }
+    //solo le librerie native per Linux arm: il gioco gira solo su SailfishOS
+    exclude 'windows/**', 'macos/**', 'linux/x64/**', '**/*.dll', '**/*.dylib'
+    exclude 'libgdx64.so', 'libgdx-freetype64.so', 'libjamepad64.so', 'libgdx.so', 'libgdx-freetype.so', 'libjamepad.so', '*riscv64*'
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+
+    manifest {
+        attributes 'Main-Class': sfMainClass
+        attributes 'Specification-Title': sfAppName
+        attributes 'Implementation-Title': sfPackageName
+        attributes 'Specification-Version': appVersionName
+        attributes 'Implementation-Version': appVersionCode
+    }
+}
+
+dependencies {
+    implementation project(':core')
+
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
+
+    //GLES ed EGL di LWJGL: su SailfishOS c'è solo OpenGL ES (Mali/Adreno via libhybris)
+    implementation "org.lwjgl:lwjgl-opengles:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-opengles:$lwjglVersion:natives-linux-arm64"
+    implementation "org.lwjgl:lwjgl-opengles:$lwjglVersion:natives-linux-arm32"
+    implementation "org.lwjgl:lwjgl-egl:$lwjglVersion"
+
+    //niente controllo aggiornamenti (debugUpdates risponde solo alle versioni INDEV) e niente notizie
+    implementation project(':services:updates:debugUpdates')
+    implementation project(':services:news:noNews')
+}

@@ -6,6 +6,7 @@ include ':core'
 include ':android'
 include ':ios'
 include ':desktop'
+include ':sailfish'  //RooTerror Pixel Dungeon
 
 //service modules
 include ':services'
@@ -15,3 +16,4 @@ include ':services'
     //news
     include ':services:news:debugNews'
     include ':services:news:shatteredNews'
+    include ':services:news:noNews'  //RooTerror Pixel Dungeon
