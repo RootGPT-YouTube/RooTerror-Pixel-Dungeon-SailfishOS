@@ -10,6 +10,8 @@ package com.badlogic.gdx.backends.lwjgl3;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RooPuntoIndietro;
+import com.watabou.input.KeyEvent;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWNativeWayland;
@@ -73,6 +75,14 @@ public final class RooTouch {
 		return -1;
 	}
 
+	//RooTerror: dita che hanno toccato il pallino «indietro»: non arrivano al gioco
+	private static final boolean[] sulPunto = new boolean[DITA];
+
+	private static boolean nelPunto(float x, float y) {
+		return RooPuntoIndietro.visibile
+				&& x < RooPuntoIndietro.ZONA_TOCCO_PX && y < RooPuntoIndietro.ZONA_TOCCO_PX;
+	}
+
 	/** Chiamato dalla libreria nativa, sul thread principale, dentro glfwPollEvents. */
 	static void onTouch(int tipo, int id, float x, float y) {
 		if (input == null) return;
@@ -87,6 +97,8 @@ public final class RooTouch {
 				if (p < 0) return;
 				idDito[p] = id;
 				ultimoX[p] = (int) x; ultimoY[p] = (int) y;
+				sulPunto[p] = nelPunto(x, y);
+				if (sulPunto[p]) break;
 				input.eventQueue.touchDown((int) x, (int) y, p, Input.Buttons.LEFT, t);
 				break;
 			}
@@ -94,19 +106,32 @@ public final class RooTouch {
 				int p = pointerDi(id);
 				if (p < 0) return;
 				ultimoX[p] = (int) x; ultimoY[p] = (int) y;
+				if (sulPunto[p]) break;
 				input.eventQueue.touchDragged((int) x, (int) y, p, t);
 				break;
 			}
 			case TIPO_UP: {
 				int p = pointerDi(id);
 				if (p < 0) return;
-				input.eventQueue.touchUp(ultimoX[p], ultimoY[p], p, Input.Buttons.LEFT, t);
 				idDito[p] = -1;
+				if (sulPunto[p]) {
+					sulPunto[p] = false;
+					//il dito si è alzato ancora sul pallino: è un vero Indietro, come il tasto di Android
+					if (nelPunto(ultimoX[p], ultimoY[p])) {
+						KeyEvent.addKeyEvent(new KeyEvent(Input.Keys.BACK, true));
+						KeyEvent.addKeyEvent(new KeyEvent(Input.Keys.BACK, false));
+					}
+					break;
+				}
+				input.eventQueue.touchUp(ultimoX[p], ultimoY[p], p, Input.Buttons.LEFT, t);
 				break;
 			}
 			case TIPO_CANCEL: {
 				for (int p = 0; p < DITA; p++) {
-					if (idDito[p] != -1) {
+					if (idDito[p] != -1 && sulPunto[p]) {
+						sulPunto[p] = false;
+						idDito[p] = -1;
+					} else if (idDito[p] != -1) {
 						//la coda di libGDX non ha touchCancelled: un tocco annullato si chiude come rilasciato
 						input.eventQueue.touchUp(ultimoX[p], ultimoY[p], p, Input.Buttons.LEFT, t);
 						idDito[p] = -1;

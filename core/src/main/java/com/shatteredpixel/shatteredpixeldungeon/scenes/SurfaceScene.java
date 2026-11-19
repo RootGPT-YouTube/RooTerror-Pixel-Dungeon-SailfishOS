@@ -478,4 +478,11 @@ public class SurfaceScene extends PixelScene {
 			Matrix.skewX( matrix, (float)(angle / Matrix.G2RAD) );
 		}
 	}
+
+	//RooTerror: niente pallino «indietro» (qui Indietro esce dal gioco, apre il menù o non fa nulla)
+	@Override
+	protected boolean haIndietro() {
+		return false;
+	}
+
 }

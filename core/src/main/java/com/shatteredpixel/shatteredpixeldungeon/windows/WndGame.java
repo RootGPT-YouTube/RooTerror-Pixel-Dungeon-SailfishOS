@@ -110,7 +110,8 @@ public class WndGame extends Window {
 			}
 		});
 		curBtn.icon(Icons.get(Icons.DISPLAY));
-		if (SPDSettings.intro()) curBtn.enable(false);
+		//RooTerror: anche durante l'introduzione si può tornare al menu principale (Shattered lo blocca
+		// finché non si legge la prima pagina della guida, e non si arriva mai a Info e ai crediti)
 
 		resize( WIDTH, pos );
 	}

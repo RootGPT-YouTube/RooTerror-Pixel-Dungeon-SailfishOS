@@ -1954,4 +1954,11 @@ public class GameScene extends PixelScene {
 			return null;
 		}
 	};
+
+	//RooTerror: niente pallino «indietro» (qui Indietro esce dal gioco, apre il menù o non fa nulla)
+	@Override
+	protected boolean haIndietro() {
+		return false;
+	}
+
 }

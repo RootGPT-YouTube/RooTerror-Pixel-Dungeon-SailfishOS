@@ -64,6 +64,21 @@ public class AboutScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
+		//*** RooTerror Pixel Dungeon Credits ***
+		//RooTerror: il porting si aggiunge in cima; i crediti di Shattered, Pixel Dungeon e libGDX restano tutti
+
+		final int ROO_COLOR = 0x66CCFF;
+		CreditsBlock roo = new CreditsBlock(true, ROO_COLOR,
+				"RooTerror Pixel Dungeon",
+				new Image("interfaces/rooterror_avatar.png"),
+				"Sailfish OS port by: _RootGPT_\nBased on Shattered Pixel Dungeon",
+				"github.com/RootGPT-YouTube",
+				"https://github.com/RootGPT-YouTube");
+		roo.setRect((w - fullWidth)/2f, insets.top + 6, fullWidth, 0);
+		content.add(roo);
+		//tutto il resto scende sotto il nostro blocco
+		float rooOfs = roo.bottom() + 8 - insets.top;
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
@@ -73,11 +88,13 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, insets.top + 26, 120, 0);
+			shpx.setRect((w - fullWidth)/2f - 6, insets.top + rooOfs + 26, 120, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+			shpx.setRect((w - fullWidth)/2f, insets.top + rooOfs + 6, 120, 0);
 		}
 		content.add(shpx);
+
+		addLine(insets.top + rooOfs - 2, content);
 
 		CreditsBlock aleks = new CreditsBlock(false, Window.SHPX_COLOR,
 				"Splash & Dungeon Art:",
@@ -87,7 +104,7 @@ public class AboutScene extends PixelScene {
 				"https://www.alekskomitov.com/");
 		aleks.setSize(colWidth/2f, 0);
 		if (landscape()){
-			aleks.setPos(shpx.right(), insets.top+6);
+			aleks.setPos(shpx.right(), insets.top + rooOfs + 6);
 		} else {
 			aleks.setPos(w/2f - colWidth/2f, shpx.bottom()+6);
 		}

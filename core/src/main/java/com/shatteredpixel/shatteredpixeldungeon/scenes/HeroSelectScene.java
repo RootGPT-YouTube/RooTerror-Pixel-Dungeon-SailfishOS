@@ -332,15 +332,18 @@ public class HeroSelectScene extends PixelScene {
 				btnWidth += Math.min(curX / (heroBtns.size() / 2f), 15);
 				curX = insets.left + (w - btnWidth * heroBtns.size()) / 2f;
 			}
-			float curY = insets.top + h - HeroBtn.HEIGHT + 3;
+			//RooTerror: su SailfishOS non c'è una barra di navigazione sotto cui far passare le caselle:
+			// il margine basso serve solo agli angoli arrotondati, quindi le caselle restano intere sopra di esso
+			boolean sottoLaBarra = !DeviceCompat.isDesktop();
+			float curY = insets.top + h - HeroBtn.HEIGHT + (sottoLaBarra ? 3 : 0);
 
 			for (StyledButton button : heroBtns) {
-				button.setRect(curX, curY, btnWidth, HeroBtn.HEIGHT + insets.bottom);
+				button.setRect(curX, curY, btnWidth, HeroBtn.HEIGHT + (sottoLaBarra ? insets.bottom : 0));
 				curX += btnWidth;
 			}
 
 			//add a darkening bar along bottom
-			if (insets.bottom > 0){
+			if (insets.bottom > 0 && sottoLaBarra){
 				SkinnedBlock bar = new SkinnedBlock(Camera.main.width, insets.bottom, TextureCache.createSolid(0xAA000000));
 				bar.y = h + insets.top;
 				add(bar);
@@ -359,7 +362,7 @@ public class HeroSelectScene extends PixelScene {
 		int ofs = PixelScene.landscape() ? 0 : 4;
 		btnExit.setPos( Camera.main.width - btnExit.width() - ofs, ofs );
 		add( btnExit );
-		btnExit.visible = btnExit.active = !SPDSettings.intro();
+		btnExit.visible = btnExit.active = true; //RooTerror: l'uscita c'è anche nell'introduzione
 
 		PointerArea fadeResetter = new PointerArea(0, 0, Camera.main.width, Camera.main.height){
 			@Override
@@ -487,7 +490,7 @@ public class HeroSelectScene extends PixelScene {
 		if (SPDSettings.intro() && Rankings.INSTANCE.totalNumber > 0){
 			SPDSettings.intro(false);
 		}
-		btnExit.visible = btnExit.active = !SPDSettings.intro();
+		btnExit.visible = btnExit.active = true; //RooTerror: l'uscita c'è anche nell'introduzione
 		//do not fade when a window is open
 		for (Object v : members){
 			if (v instanceof Window) resetFade();
@@ -551,6 +554,12 @@ public class HeroSelectScene extends PixelScene {
 		//starts fading after 4 seconds, fades over 4 seconds.
 		uiAlpha = 2f;
 		updateFade();
+	}
+
+	//RooTerror: il pallino «indietro» c'è quando c'è l'uscita (su Sailfish sempre, anche nell'introduzione)
+	@Override
+	protected boolean haIndietro() {
+		return btnExit != null && btnExit.active;
 	}
 
 	@Override

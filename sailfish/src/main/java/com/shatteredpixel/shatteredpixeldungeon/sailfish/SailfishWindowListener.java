@@ -22,11 +22,16 @@
 package com.shatteredpixel.shatteredpixeldungeon.sailfish;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import com.badlogic.gdx.backends.lwjgl3.RooTouch;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.watabou.noosa.audio.Music;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 //RooTerror: finestra su SailfishOS — tocco Wayland, pausa in secondo piano
 public class SailfishWindowListener implements Lwjgl3WindowListener {
@@ -43,12 +48,48 @@ public class SailfishWindowListener implements Lwjgl3WindowListener {
 	@Override
 	public void iconified ( boolean b ) { }
 
+	//Il controllo dei gamepad di gdx-controllers (JamepadControllerMonitor) si rimette nella coda
+	// dell'applicazione a ogni giro, e libGDX disegna un fotogramma per ogni compito in coda: così
+	// il gioco va a 60 fps per sempre, anche in copertina (~20 % di un core). In secondo piano lo
+	// togliamo dalla coda e lo rimettiamo al ritorno: i gamepad funzionano mentre si gioca.
+	private final ArrayList<Runnable> monitorSospesi = new ArrayList<>();
+
+	@SuppressWarnings("unchecked")
+	private static Array<Runnable> codaApplicazione(){
+		try {
+			Field f = Lwjgl3Application.class.getDeclaredField("runnables");
+			f.setAccessible(true);
+			return (Array<Runnable>) f.get(Gdx.app);
+		} catch (Exception e) {
+			System.err.println("[rooterror] coda di libGDX non raggiungibile: " + e);
+			return null;
+		}
+	}
+
+	private void sospendiMonitorGamepad(){
+		Array<Runnable> coda = codaApplicazione();
+		if (coda == null) return;
+		synchronized (coda) {
+			for (int i = coda.size - 1; i >= 0; i--) {
+				if (coda.get(i).getClass().getSimpleName().equals("JamepadControllerMonitor")) {
+					monitorSospesi.add(coda.removeIndex(i));
+				}
+			}
+		}
+	}
+
+	private void riprendiMonitorGamepad(){
+		for (Runnable r : monitorSospesi) Gdx.app.postRunnable(r);
+		monitorSospesi.clear();
+	}
+
 	public void focusLost () {
 		if (!SPDSettings.playMusicInBackground()) {
 			Music.INSTANCE.pause();
 		}
 		//in secondo piano non si disegna: la cover mostra l'ultimo fotogramma
 		Gdx.graphics.setContinuousRendering(false);
+		sospendiMonitorGamepad();
 		System.err.println("[rooterror] in secondo piano: pausa");
 	}
 
@@ -56,6 +97,7 @@ public class SailfishWindowListener implements Lwjgl3WindowListener {
 		if (!SPDSettings.playMusicInBackground()){
 			Music.INSTANCE.resume();
 		}
+		riprendiMonitorGamepad();
 		Gdx.graphics.setContinuousRendering(true);
 		System.err.println("[rooterror] in primo piano: ripresa");
 	}

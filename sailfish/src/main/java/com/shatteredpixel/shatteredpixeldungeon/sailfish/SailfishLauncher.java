@@ -28,6 +28,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3FileHandle;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Preferences;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RooPuntoIndietro;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.News;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.NewsImpl;
@@ -107,6 +108,15 @@ public class SailfishLauncher {
 		config.setPreferencesConfig( basePath, baseFileType );
 		SPDSettings.set( new Lwjgl3Preferences( new Lwjgl3FileHandle(basePath + SPDSettings.DEFAULT_PREFS_FILE, baseFileType) ));
 		FileUtils.setDefaultFileProperties( baseFileType, basePath );
+
+		//RooTerror: niente tasto Indietro su Sailfish: pallino in alto a sinistra come nelle pagine di Silica
+		RooPuntoIndietro.attivo = true;
+
+		//RooTerror: su un telefono la musica si ferma quando il gioco va in copertina
+		// (sul PC Shattered la lascia suonare). Solo come valore iniziale: l'opzione resta nelle impostazioni.
+		if (!SPDSettings.contains( SPDSettings.KEY_MUSIC_BG )){
+			SPDSettings.playMusicInBackground( false );
+		}
 
 		//GLES2 via EGL (Mali/libhybris) invece dell'OpenGL desktop: è la modalità ANGLE di libGDX,
 		// ma senza ANGLELoader le librerie GLES/EGL sono quelle di sistema

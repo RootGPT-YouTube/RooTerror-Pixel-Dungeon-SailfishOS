@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TitleBackground;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Tooltip;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RooPuntoIndietro;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.Holiday;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndJournal;
@@ -178,8 +179,34 @@ public class PixelScene extends Scene {
 
 	}
 
+	//RooTerror: pallino «indietro» di Sailfish, sempre davanti a tutto (anche alle finestre aperte dopo)
+	private RooPuntoIndietro puntoIndietro;
+
+	//RooTerror: il pallino si vede se c'è una finestra aperta (Indietro la chiude) o se la scena sa tornare indietro
+	public boolean puoTornareIndietro(){
+		for (int i = 0; i < length; i++){
+			Gizmo g = members.get(i);
+			if (g instanceof Window && g.visible && g.active) return true;
+		}
+		return haIndietro();
+	}
+
+	//RooTerror: le scene dove Indietro esce dal gioco o apre il menù rispondono false
+	protected boolean haIndietro(){
+		return true;
+	}
+
 	@Override
 	public void update() {
+		if (RooPuntoIndietro.attivo){
+			if (puntoIndietro == null){
+				puntoIndietro = new RooPuntoIndietro();
+				add(puntoIndietro);
+			} else if (length > 0 && members.get(length - 1) != puntoIndietro){
+				bringToFront(puntoIndietro);
+			}
+		}
+
 		//we create this here so that it is last in the scene
 		if (DeviceCompat.isDesktop() && fullscreenListener == null){
 			KeyEvent.addKeyListener(fullscreenListener = new Signal.Listener<KeyEvent>() {

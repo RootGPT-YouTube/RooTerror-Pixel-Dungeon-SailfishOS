@@ -178,4 +178,11 @@ public class AmuletScene extends PixelScene {
 			add( star );
 		}
 	}
+
+	//RooTerror: niente pallino «indietro» (qui Indietro esce dal gioco, apre il menù o non fa nulla)
+	@Override
+	protected boolean haIndietro() {
+		return false;
+	}
+
 }
