@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+# generic = nessun booster Silica/Qt: è un gioco Java (libGDX) con la sua finestra Wayland
+X-Nemo-Application-Type=generic
+Name=RooTerror Pixel Dungeon
+Comment=Roguelike
+# Exec semplice, senza invoker: lipstick riconosce la finestra solo se la
+# cmdline del processo combacia con questa riga
+Exec=rooterror-pixel-dungeon
+Icon=rooterror-pixel-dungeon
+Categories=Game;RolePlaying;
+
+[X-Sailjail]
+# Senza questa sezione sailjaild rifiuta il lancio dall'icona.
+OrganizationName=com.github.RootGPT_YouTube
+ApplicationName=rooterror
+Sandboxing=Disabled

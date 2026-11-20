@@ -1,0 +1,10 @@
+# build output of prepara-pacchetto.sh and sfdk
+/staging/
+/build/
+/RPMS/
+/RPMS.tutti/
+/.sfdk/
+/rooterror-pixel-dungeon
+/librootouch.so
+*.rpm
+*.core
