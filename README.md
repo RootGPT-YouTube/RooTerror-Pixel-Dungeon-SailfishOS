@@ -22,6 +22,22 @@ This application was developed using artificial intelligence technologies, speci
 
 I hereby disclaim any and all responsibility for the application, its functionality, and any consequences arising from its use. By choosing to use this application, the user acknowledges and accepts that they do so entirely at their own risk, and agrees that the developer shall not be held liable for any damages, losses, or adverse effects—whether direct, indirect, incidental, or consequential—resulting from the use or misuse of the application.
 
+### Credits
+
+RooTerror Pixel Dungeon **is Evan Debenham's game**: the game design, the code, the art and all the content come
+from **[Shattered Pixel Dungeon](https://shatteredpixel.com/shatteredpd/)**; this port only adds what Sailfish OS needs.
+
+- **Shattered Pixel Dungeon** — developed by **Evan Debenham** ([shatteredpixel.com](https://shatteredpixel.com),
+  [source](https://github.com/00-Evan/shattered-pixel-dungeon), [Patreon](https://www.patreon.com/ShatteredPixel))
+- **Pixel Dungeon** — developed by **Oleg Dolya (Watabou)** ([watabou.itch.io](https://watabou.itch.io/)),
+  inspired by Brian Walker's Brogue
+- From the game's credits: splash and dungeon art **Aleksandar Komitov**, composer **Lumine Haaristo**, item pixel
+  art **PumpkinVolt**, sound effects **Celesti**, additional pixel art **Alastair Braun**, Pixel Dungeon music
+  **Cube Code**, the volunteer translators on **Transifex**, and **libGDX**
+- Sailfish OS port — **RootGPT**
+
+The full credits, unchanged, are in the game's «About» screen.
+
 ### What it is
 
 - **Shattered Pixel Dungeon 4.0.2**, the whole game: randomized dungeons, enemies and hundreds of
@@ -96,6 +112,23 @@ RooTerror Pixel Dungeon è testato:
 Questa applicazione è stata sviluppata utilizzando tecnologie di intelligenza artificiale, in particolare Claude Code Opus. Pertanto, se l'uso di un'applicazione generata tramite un modello linguistico su larga scala (LLM) non fosse per l'utente confortevole, si raccomanda di evitarne l'installazione e l'uso. Si specifica che qualsiasi commento negativo riguardante questa circostanza non verrà solo ignorato, ma comporterà il blocco immediato dell'utente.
 
 Con la presente declino ogni responsabilità relativa all'applicazione, al suo funzionamento e a qualsiasi conseguenza derivante dal suo utilizzo. L'utente, scegliendo di utilizzare l'applicazione, riconosce e accetta di farlo a proprio ed esclusivo rischio, e concorda che lo sviluppatore non potrà essere ritenuto responsabile per eventuali danni, perdite o effetti negativi — diretti, indiretti, incidentali o consequenziali — derivanti dall'uso o dall'uso improprio dell'applicazione.
+
+### Crediti
+
+RooTerror Pixel Dungeon **è il gioco di Evan Debenham**: il design, il codice, la grafica e tutti i contenuti vengono
+da **[Shattered Pixel Dungeon](https://shatteredpixel.com/shatteredpd/)**; questo porting aggiunge solo quello che serve
+a Sailfish OS.
+
+- **Shattered Pixel Dungeon** — sviluppato da **Evan Debenham** ([shatteredpixel.com](https://shatteredpixel.com),
+  [sorgente](https://github.com/00-Evan/shattered-pixel-dungeon), [Patreon](https://www.patreon.com/ShatteredPixel))
+- **Pixel Dungeon** — sviluppato da **Oleg Dolya (Watabou)** ([watabou.itch.io](https://watabou.itch.io/)),
+  ispirato a Brogue di Brian Walker
+- Dai crediti del gioco: illustrazioni e grafica dei sotterranei **Aleksandar Komitov**, musiche **Lumine Haaristo**,
+  pixel art degli oggetti **PumpkinVolt**, effetti sonori **Celesti**, altra pixel art **Alastair Braun**, musiche di
+  Pixel Dungeon **Cube Code**, i traduttori volontari su **Transifex**, e **libGDX**
+- Porting per Sailfish OS — **RootGPT**
+
+I crediti completi, invariati, sono nella schermata «Informazioni» del gioco.
 
 ### Cos'è
 
