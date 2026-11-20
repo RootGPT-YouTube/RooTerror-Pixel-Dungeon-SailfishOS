@@ -17,6 +17,8 @@ Prerequisite: Sailfish OS 5.1 or later · **aarch64** (armv7hl packages are buil
 Telegram Group: https://t.me/+E7V-a7x4JbY1Njhk  
 RooTerror Pixel Dungeon is tested on:  
 - POCO M4 Pro 4G (Sailfish OS 5.2.0.22, community port)  
+- Sony Xperia 10 III (Sailfish OS 5.2.0.22)  
+- Jolla C2 (Sailfish OS 5.2.0.22)  
 
 This application was developed using artificial intelligence technologies, specifically Claude Code Opus. Therefore, if the use of an application generated via a large-scale language model (LLM) is not comfortable for the user, it is recommended to avoid its installation and use. It is specified that any negative comment regarding this circumstance will not only be ignored but will result in the immediate blocking of the user.
 
@@ -108,6 +110,8 @@ Requisiti: Sailfish OS 5.1 o successivo · **aarch64** (i pacchetti armv7hl sono
 Gruppo Telegram: https://t.me/+E7V-a7x4JbY1Njhk  
 RooTerror Pixel Dungeon è testato:  
 - POCO M4 Pro 4G (Sailfish OS 5.2.0.22, port della comunità)  
+- Sony Xperia 10 III (Sailfish OS 5.2.0.22)  
+- Jolla C2 (Sailfish OS 5.2.0.22)  
 
 Questa applicazione è stata sviluppata utilizzando tecnologie di intelligenza artificiale, in particolare Claude Code Opus. Pertanto, se l'uso di un'applicazione generata tramite un modello linguistico su larga scala (LLM) non fosse per l'utente confortevole, si raccomanda di evitarne l'installazione e l'uso. Si specifica che qualsiasi commento negativo riguardante questa circostanza non verrà solo ignorato, ma comporterà il blocco immediato dell'utente.
 
